@@ -10,9 +10,9 @@ class SessionLength extends Component{
                     <h2 id="session-label">Session Length</h2>
                 </div>
                 <div id="session" >
-                    <button className="timer" id="session-decrement" onClick={this.props.decrement}><FontAwesomeIcon icon ={faArrowDown}/></button>
+                    <button className="timer" id="session-decrement" disabled={this.props.isPlay === true? "disabled": ""} onClick={this.props.decrement}><FontAwesomeIcon icon ={faArrowDown}/></button>
                     <p  className="timer" id="session-length">{this.props.session}</p>
-                    <button className="timer" id="session-increment" onClick={this.props.increment}><FontAwesomeIcon icon ={faArrowUp}/></button>
+                    <button className="timer" disabled={this.props.isPlay === true? "disabled": ""} id="session-increment" onClick={this.props.increment}><FontAwesomeIcon icon ={faArrowUp}/></button>
                 </div>                
             </div>
         )

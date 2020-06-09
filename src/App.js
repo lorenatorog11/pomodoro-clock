@@ -4,11 +4,6 @@ import BreakLength from './components/BreakLength';
 import SessionLength from './components/SessionLength';
 import Timer from './components/Timer';
 
-
-let segundos= '00';
-let minutos = '00';
-let stateName = "Session";
-
 class App extends Component {
   constructor(props){
     super(props)
@@ -16,13 +11,15 @@ class App extends Component {
       break: 5,
       session: 25,
       timer: 25,
-      name: "Session"
+      isPlay: false
     }
     this.decrementkBreak = this.decrementkBreak.bind(this)
     this.decrementkSession = this.decrementkSession.bind(this)
     this.incrementkBreak = this.incrementkBreak.bind(this)
     this.incrementkSession = this.incrementkSession.bind(this)
-    this.timerIncrement = this.timerIncrement.bind(this)
+    this.timerDecrement = this.timerDecrement.bind(this)
+    this.onToggleInterval = this.onToggleInterval.bind(this)
+    this.onRefresh = this.onRefresh.bind(this)
   }
 
   decrementkBreak(){
@@ -40,7 +37,8 @@ class App extends Component {
     if(contadorSession>1){
       contadorSession--
       this.setState({
-        session: contadorSession
+        session: contadorSession,
+        timer: contadorSession
       })
     }
   }
@@ -56,68 +54,65 @@ class App extends Component {
   }
 
   incrementkSession(){
+    console.log(this.state);
     let contadorSession =this.state.session;
     if(contadorSession<60){
       contadorSession++
       this.setState({
-        session: contadorSession
+        session: contadorSession,
+        timer: contadorSession
       })
     }
   }
 
-  timerIncrement(){
-    segundos = 60;
-    stateName = this.state.session; 
-    minutos = this.state.session;     
-    if(stateName === "Session" ){
-       
-      setInterval(()=>{
-        if(segundos>0){
-          segundos--;
-          console.log(minutos,':',segundos);
-          if(segundos === 0 && minutos !== 0){
-            minutos--;
-            segundos = 60;          
-          }else if(segundos ===0 && minutos ===0){
-            stateName = "Break";
-            this.setState({
-              name: "Break"
-            })         
-          }
-        }
-      }, 100)
-    }
-    segundos = 60;
-    minutos = this.state.break;  
-    if(stateName === "Break"){ 
-      setInterval(()=>{
-        if(segundos>0){
-          segundos--;
-          console.log("HolsBreak",minutos,':',segundos);
-          if(segundos === 0 && minutos !== 0){
-            minutos--;
-            segundos = 60;          
-          }else if(segundos ===0 && minutos ===0){
-            this.setState({
-              name: "Session"
-            })
-            stateName = "Session";
-        }
-        }
-      }, 100)
+
+  timerDecrement(){
+    this.setState((prevState)=>{
+      return{
+        timer: prevState.timer - 1
+      }
+    })
+  } 
+
+  onToggleInterval(inSession){
+    if(inSession){
+      this.setState({
+        timer: this.state.session
+      })
+    }else{
+      this.setState({
+        timer: this.state.break
+      })
     }
   }
 
+  onRefresh(){
+    this.setState({
+      break: 5,
+      session: 25,
+      timer: 25,
+      isPlay: false
+    })
+  }
+
+  onPlay = (isPlay) =>{
+    this.setState({
+      isPlay: isPlay
+    })
+  }
 
   render(){
     return (
       <div className="App" id="App">
         <h1 id="title">Promodoro Clock</h1>
         <section id="section">
-          <BreakLength break={this.state.break} decrement={this.decrementkBreak} increment={this.incrementkBreak}/>
-          <SessionLength session={this.state.session} decrement={this.decrementkSession} increment={this.incrementkSession}/>
+          <BreakLength break={this.state.break} isPlay={this.state.isPlay} decrement={this.decrementkBreak} increment={this.incrementkBreak}/>
+          <SessionLength session={this.state.session} isPlay={this.state.isPlay} decrement={this.decrementkSession} increment={this.incrementkSession}/>
         </section>
-        <Timer click={this.timerIncrement} min={minutos} seg={segundos} name={this.state.name}/>
+        <section id="section2">
+          <Timer timer={this.state.timer} break={this.state.break} decrement={this.timerDecrement} toggle={this.onToggleInterval} refresh={this.onRefresh} onPlay={this.onPlay}/>
+        </section>
+        
       </div>
     );
   }

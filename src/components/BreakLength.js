@@ -10,9 +10,9 @@ class BreakLength extends Component{
                     <h1 id="break-label">Break Length</h1>
                 </div>
                 <div id="break">
-                    <button className="timer" id="break-decrement" onClick={this.props.decrement}><FontAwesomeIcon icon ={faArrowDown} /></button>
+                    <button className="timer" disabled={this.props.isPlay === true? "disabled": ""} id="break-decrement" onClick={this.props.decrement}><FontAwesomeIcon icon ={faArrowDown} /></button>
                     <p className="timer" id="break-length">{this.props.break}</p>
-                    <button className="timer" id="break-increment" onClick={this.props.increment}><FontAwesomeIcon icon ={faArrowUp}/></button>
+                    <button className="timer" disabled={this.props.isPlay === true? "disabled": ""} id="break-increment" onClick={this.props.increment}><FontAwesomeIcon icon ={faArrowUp}/></button>
                 </div>                
             </div>
         )

@@ -1,3 +1,6 @@
+body{
+    background-color: #bdfce7;
+}
 #App{
     display: flex;
     flex-direction: column;
@@ -6,11 +9,23 @@
     right: 50%;
     transform: translate(50%, -50%);
     text-align: center;
+    align-items: center;
 }
 
 #section{
     display: flex;
     flex-direction: row;
+    
+}
+#section div, #section2{
+    background-color: azure;
+    margin: 3%;
+    border-radius: 10px;
+}
+#section2{
+    width: 80%;
+    margin: 0px;
+    padding-bottom: 10px;
 }
 
 #session, #break{
@@ -30,5 +45,18 @@
     margin: 10px auto 10px auto;
     font-size: 20px;
     width: 90%;
+}
+#timer-label{
+    margin-bottom: 0px;
+}
+#time-left{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-content: center;
+    margin: 3%;
+}
 
+button:disabled {
+    cursor: not-allowed;
 }
